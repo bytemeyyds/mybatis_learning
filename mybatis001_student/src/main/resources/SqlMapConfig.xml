@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--MyBatis主配置头文件-->
+
+<configuration>
+<!--    读取属性文件 jdbc.properties
+
+        resource : 从resources目录下找指定名称的文件加载
+        url : 使用绝对路径加载属性文件
+-->
+
+    <properties resource="jdbc.properties"></properties>
+
+<!--    设置日志输出底层执行的代码-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    
+    
+<!--    注册实体类别名-->
+    <typeAliases>
+<!--        单个实体类别名注册-->
+<!--        <typeAlias type="org.hgq.pojo.Student" alias="student"></typeAlias>-->
+
+<!--        批量注册实体类别名
+
+            将pojo 这个package中的所有类进行批量注册别名，是类名的驼峰命名法
+-->
+        <package name="org.hgq.pojo"/>
+
+    </typeAliases>
+
+<!--    配置数据库的环境变量-->
+    <environments default="development">
+<!--        default也可以为home、online，代表使用不同的数据库环境变量-->
+<!--        开发时在公司使用的数据库配置-->
+        <environment id="development">
+<!--            配置事务管理器
+                type:指定事务管理的方式
+                    JDBC :事务的控制交给程序员处理
+                    MANAGER：由容器（Spring）来管理事务
+-->
+            <transactionManager type="JDBC"></transactionManager>
+<!--            配置数据源
+                    type：
+                        JNDI:java命名目录接口，在服务器端进行数据库连接池的管理
+                        POOLED：使用数据库连接池
+                        UNPOOLED：不使用数据库连接池
+-->
+            <dataSource type="POOLED">
+<!--                配置数据库连接的基本参数
+                    private String driver;
+                    private String url;
+                    private String username;
+                    private String password;
+
+-->
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+<!--&lt;!&ndash;        在家的数据库配置&ndash;&gt;-->
+<!--        <environment id="home">-->
+<!--            <transactionManager type=""></transactionManager>-->
+<!--            <dataSource type=""></dataSource>-->
+<!--        </environment>-->
+
+<!--&lt;!&ndash;        上线后的数据库配置&ndash;&gt;-->
+<!--        <environment id="online">-->
+<!--            <transactionManager type=""></transactionManager>-->
+<!--            <dataSource type=""></dataSource>-->
+<!--        </environment>-->
+
+    </environments>
+
+<!--    注册mapper.xml文件
+           resource:从resources目录下找指定的名称的文件注册
+           url：指定绝对路径注册
+           class：动态代理方式注册
+-->
+
+    <mappers>
+<!--        <package name="org.hgq.mapper"/>-->
+<!--        <mapper resource="StudentMapper.xml"></mapper>-->
+<!--        <mapper url="StudentMapper.xml"></mapper>-->
+        <mapper class="StudentMapper.xml"></mapper>
+
+    </mappers>
+</configuration>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hgq.mapper.OrderMapper">
+<!--     //根据主键查询订单，并同时查询此订单下的所有客户信息
+    Order getById(Integer id);-->
+
+
+<!--    private Integer id;-->
+<!--    private String orderNumber;-->
+<!--    private double orderPrice;-->
+
+<!--    //关联此订单的客户信息，多方持有一方的对象-->
+<!--    private Customer customer;-->
+
+<!--    手工绑定数据-->
+    <resultMap id="orderMap" type="order">
+<!--        主键绑定-->
+        <id property="id" column="oid"></id>
+<!--        非主键绑定-->
+        <result property="orderNumber" column="orderNumber"></result>
+        <result property="orderPrice" column="orderPrice"></result>
+<!--        private Customer customers;绑定
+         private Integer id;
+        private String name;
+        private Integer age;
+
+        private List<Order> orders; //不用管
+-->
+        <association property="customer" javaType="customer">
+            <id property="id" column="cid"></id>
+            <result property="name" column="name"></result>
+            <result property="age" column="age"></result>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="int" resultMap="orderMap">
+        select o.id oid,orderNumber,orderPrice,customer_id,c.id cid,name,age
+        from orders o inner join customer c on o.customer_id = c.id
+        where o.id=#{oid}
+    </select>
+</mapper>

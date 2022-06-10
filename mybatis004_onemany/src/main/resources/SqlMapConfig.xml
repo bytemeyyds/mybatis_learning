@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--MyBatis主配置头文件-->
+
+<configuration>
+<!--    读取jdbc.properties属性文件-->
+    <properties resource="jdbc.properties"></properties>
+<!--    设置日志输出-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+<!--    注册实体类的别名-->
+    <typeAliases>
+        <package name="org.hgq.pojo"/>
+    </typeAliases>
+<!--    配置环境变量-->
+    <environments default="development">
+        <environment id="development">
+<!--            事务管理设置-->
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+<!--                将"jdbc.properties"属性文件配置-->
+    <!--                private String driver;-->
+    <!--                private String url;-->
+    <!--                private String username;-->
+    <!--                private String password;-->
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+<!--    注册mapper.xml文件-->
+    <mappers>
+<!--        <mapper class="org.hgq.mapper.UsersMapper"></mapper>-->
+
+<!--        批量注册   将org.hgq.mapper中的所有mapper.xml文件注册进来-->
+        <package name="org.hgq.mapper"/>
+    </mappers>
+    
+</configuration>
